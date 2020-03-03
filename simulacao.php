@@ -16,6 +16,9 @@ else {
         header("Location: index.php?erro");
     
     // beneficiarios
+    if(!isset($_POST['beneficiario']))
+        header("Location: index.php?null");
+        
     $beneficiarios = format_beneficiarios($_POST['beneficiario']);
     $precos = precos($codigo, count($beneficiarios));
 
