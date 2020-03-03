@@ -34,12 +34,24 @@ $(window).on('load', function(){
     });
     
     $('#registro').autocomplete({
-        source: src,
+        source: function(request, response) {
+            var results = $.ui.autocomplete.filter(src, request.term);
+
+            if (!results.length) {
+                results = ["Sem resultados."];
+            }
+
+            response(results);
+        },
         select: function (event, ui) {
-            event.preventDefault();
-            this.value = ui.item.label;
-            $('#plano').val(ui.item.value);
-            $('#codigo').val(ui.item.codigo);
+            if (ui.item.label === "Sem resultados.") {
+                event.preventDefault();
+            }
+            else {
+                this.value = ui.item.label;
+                $('#plano').val(ui.item.value);
+                $('#codigo').val(ui.item.codigo);
+            }
         }
     });
 
